@@ -12,6 +12,19 @@
   padding: 0px 10px;
 }
 
+.input {
+  margin: 0px;
+}
+
 button {
   font-size: 1em;
+  margin: 0px 7px;
+}
+
+input {
+  font-size: 0.5em;
+}
+
+.submit {
+  font-size: 0.5em;
 }
