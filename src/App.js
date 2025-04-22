@@ -1,4 +1,5 @@
 import './App.css';
+import Clock from "./Clock.js";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -176,7 +177,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1><span className="clock">{countdown.minutes < 10 ? 0 : ""}{countdown.minutes}:{countdown.seconds < 10 ? 0 : ""}{countdown.seconds}</span></h1>
+      <h1>
+        <Clock minutes={countdown.minutes} seconds={countdown.seconds} />
+      </h1>
       <h2>{currentTask}</h2>
       <form>
         <button onClick={startPause}>{timer ? "Pause" : "Start"}</button>
@@ -187,7 +190,9 @@ function App() {
         <button onClick={setInput} className="up" name="2">↑</button>
         <button onClick={setInput} className="up" name="3">↑</button>
         <button onClick={setInput} className="up" name="4">↑</button>
-        <h2 className="input"><span className="clock">{inputTime.minutes < 10 ? 0 : ""}{inputTime.minutes}:{inputTime.seconds < 10 ? 0 : ""}{inputTime.seconds}</span></h2>
+        <h2 className="input">
+          <Clock minutes={inputTime.minutes} seconds={inputTime.seconds} />
+        </h2>
         <button onClick={setInput} className="down" name="1">↓</button>
         <button onClick={setInput} className="down" name="2">↓</button>
         <button onClick={setInput} className="down" name="3">↓</button>
@@ -199,7 +204,7 @@ function App() {
       {timers.map(timerElement => {
         return (
           <p>
-            <span className="clock">{timerElement.minutes < 10 ? 0 : ""}{timerElement.minutes}:{timerElement.seconds < 10 ? 0 : ""}{timerElement.seconds}</span>
+            <Clock minutes={timerElement.minutes} seconds={timerElement.seconds} />
             {timerElement.thisTask}
           </p>
         );
