@@ -12,11 +12,10 @@ function App() {
   const [timer, setTimer] = useState();
 
   const nextTimer = useCallback(() => {
-    setTimers(timers.slice(1));
-    if (timers.length > 0) {
+    if (timers.length > 1) {
       setCountdown({
-        minutes: timers[0].minutes,
-        seconds: timers[0].seconds,
+        minutes: timers[1].minutes,
+        seconds: timers[1].seconds,
       });
     } else {
       setCountdown({
@@ -24,6 +23,7 @@ function App() {
         seconds: 0,
       });
     }
+    setTimers(timers.slice(1));
   }, [timers]);
 
   useEffect(() => {
