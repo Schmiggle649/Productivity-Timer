@@ -4,36 +4,39 @@ import TimeSetter from "./TimeSetter.js";
 import { useState, useEffect, useCallback } from "react";
 
 function App() {
+  const [timer, setTimer] = useState();
   const [timers, setTimers] = useState([]);
-  const [countdown, setCountdown] = useState({
+  const [currentTimer, setCurrentTimer] = useState({
     minutes: 0,
     seconds: 0,
+    task: ""
   });
-  const [timer, setTimer] = useState();
 
   const nextTimer = useCallback(() => {
     if (timers.length > 1) {
-      setCountdown({
+      setCurrentTimer({
         minutes: timers[1].minutes,
         seconds: timers[1].seconds,
+        task: timers[1].task
       });
     } else {
-      setCountdown({
+      setCurrentTimer({
         minutes: 0,
         seconds: 0,
+        task: ""
       });
     }
     setTimers(timers.slice(1));
   }, [timers]);
 
   useEffect(() => {
-    if (timer && countdown.minutes === 0 && countdown.seconds === 0) {
+    if (timer && currentTimer.minutes === 0 && currentTimer.seconds === 0) {
       clearInterval(timer);
       setTimer(null);
       new Audio(process.env.PUBLIC_URL + "/alarm.mp3").play();
       nextTimer();
     }
-  }, [countdown, timer, nextTimer]);
+  }, [currentTimer, timer, nextTimer]);
 
   function startPause(event) {
     if (timer) {
@@ -42,16 +45,18 @@ function App() {
     } else {
       setTimer(
         setInterval(() => {
-          setCountdown(current => {
+          setCurrentTimer(current => {
             if (current.seconds > 0) {
               return {
                 minutes: current.minutes,
                 seconds: current.seconds - 1,
+                task: current.task
               };
             } else if (current.minutes > 0) {
               return {
                 minutes: current.minutes - 1,
                 seconds: 59,
+                task: current.task
               };
             }
           });
@@ -68,18 +73,19 @@ function App() {
     event.preventDefault();
   }
 
-  function addTime(inputTime, task) {
+  function addTime(inputTime, inputTask) {
     setTimers(queue => {
       if (timers.length === 0) {
-        setCountdown({
+        setCurrentTimer({
           minutes: inputTime.minutes,
-          seconds: inputTime.seconds
+          seconds: inputTime.seconds,
+          task: inputTask
         });
       }
       return [...queue, {
         minutes: inputTime.minutes,
         seconds: inputTime.seconds,
-        thisTask: task
+        task: inputTask
       }];
     });
   }
@@ -87,9 +93,9 @@ function App() {
   return (
     <div className="App">
       <h1>
-        <Clock minutes={countdown.minutes} seconds={countdown.seconds} />
+        <Clock minutes={currentTimer.minutes} seconds={currentTimer.seconds} />
       </h1>
-      <h2>{timers.length > 0 ? timers[0].thisTask : ""}</h2>
+      <h2>{currentTimer.task}</h2>
       <form>
         <button onClick={startPause}>{timer ? "Pause" : "Start"}</button>
         <button onClick={end}>End</button>
@@ -103,7 +109,7 @@ function App() {
         return (
           <p>
             <Clock minutes={timerElement.minutes} seconds={timerElement.seconds} />
-            {timerElement.thisTask}
+            {timerElement.task}
           </p>
         );
       })}
