@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Productivity-Timer/static/css/main.d9eff111.css",
-    "main.js": "/Productivity-Timer/static/js/main.f8259f8e.js",
+    "main.js": "/Productivity-Timer/static/js/main.ac964ec5.js",
     "static/js/453.98346c13.chunk.js": "/Productivity-Timer/static/js/453.98346c13.chunk.js",
     "index.html": "/Productivity-Timer/index.html",
     "main.d9eff111.css.map": "/Productivity-Timer/static/css/main.d9eff111.css.map",
-    "main.f8259f8e.js.map": "/Productivity-Timer/static/js/main.f8259f8e.js.map",
+    "main.ac964ec5.js.map": "/Productivity-Timer/static/js/main.ac964ec5.js.map",
     "453.98346c13.chunk.js.map": "/Productivity-Timer/static/js/453.98346c13.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d9eff111.css",
-    "static/js/main.f8259f8e.js"
+    "static/js/main.ac964ec5.js"
   ]
 }
