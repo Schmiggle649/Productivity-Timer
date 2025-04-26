@@ -12,6 +12,7 @@ function App() {
     seconds: 0,
     task: ""
   });
+  const [automatic, setAutomatic] = useState(false);
 
   const nextTimer = useCallback(() => {
     if (timers.length > 1) {
@@ -37,9 +38,11 @@ function App() {
       clearInterval(timer);
       setTimer(null);
       new Audio(process.env.PUBLIC_URL + "/alarm.mp3").play();
-      nextTimer();
+      if (automatic) {
+        nextTimer();
+      }
     }
-  }, [currentTimer, timer, nextTimer]);
+  }, [currentTimer, timer, automatic, nextTimer]);
 
   function startPause(event) {
     if (timer) {
@@ -78,7 +81,7 @@ function App() {
     event.preventDefault();
   }
 
-  function end(event) {
+  function next(event) {
     clearInterval(timer);
     setTimer(null);
     nextTimer();
@@ -104,6 +107,10 @@ function App() {
     });
   }
 
+  function handleAutoManual(event) {
+    setAutomatic(event.target.id === "auto");
+  }
+
   return (
     <div className="App">
       <h1>
@@ -112,10 +119,16 @@ function App() {
       <h2>{currentTimer.task}</h2>
       <form>
         <button onClick={startPause}>{timer ? "Pause" : "Start"}</button>
-        <button onClick={end}>End</button>
+        <button onClick={next}>Next</button>
       </form>
       <TimeSetter add={addTime} />
       <h2>Queue</h2>
+      <form className="autoManual" onClick={handleAutoManual}>
+        <input type="radio" id="auto" name="autoManual" checked={automatic} />
+        <label htmlFor="auto">Automatic</label>
+        <input type="radio" id="manual" name="autoManual" checked={!automatic} />
+        <label htmlFor="manual">Manual</label>
+      </form>
       {timers.map((timerElement, index) => {
         if (index === 0) {
           return <p></p>;
