@@ -7,6 +7,7 @@ function App() {
   const [timer, setTimer] = useState();
   const [timers, setTimers] = useState([]);
   const [currentTimer, setCurrentTimer] = useState({
+    hours: 0,
     minutes: 0,
     seconds: 0,
     task: ""
@@ -15,12 +16,14 @@ function App() {
   const nextTimer = useCallback(() => {
     if (timers.length > 1) {
       setCurrentTimer({
+        hours: timers[1].hours,
         minutes: timers[1].minutes,
         seconds: timers[1].seconds,
         task: timers[1].task
       });
     } else {
       setCurrentTimer({
+        hours: 0,
         minutes: 0,
         seconds: 0,
         task: ""
@@ -30,7 +33,7 @@ function App() {
   }, [timers]);
 
   useEffect(() => {
-    if (timer && currentTimer.minutes === 0 && currentTimer.seconds === 0) {
+    if (timer && currentTimer.hours === 0 && currentTimer.minutes === 0 && currentTimer.seconds === 0) {
       clearInterval(timer);
       setTimer(null);
       new Audio(process.env.PUBLIC_URL + "/alarm.mp3").play();
@@ -48,13 +51,22 @@ function App() {
           setCurrentTimer(current => {
             if (current.seconds > 0) {
               return {
+                hours: current.hours,
                 minutes: current.minutes,
                 seconds: current.seconds - 1,
                 task: current.task
               };
             } else if (current.minutes > 0) {
               return {
+                hours: current.hours,
                 minutes: current.minutes - 1,
+                seconds: 59,
+                task: current.task
+              };
+            } else if (current.hours > 0) {
+              return {
+                hours: current.hours - 1,
+                minutes: 59,
                 seconds: 59,
                 task: current.task
               };
@@ -77,12 +89,14 @@ function App() {
     setTimers(queue => {
       if (timers.length === 0) {
         setCurrentTimer({
+          hours: inputTime.hours,
           minutes: inputTime.minutes,
           seconds: inputTime.seconds,
           task: inputTask
         });
       }
       return [...queue, {
+        hours: inputTime.hours,
         minutes: inputTime.minutes,
         seconds: inputTime.seconds,
         task: inputTask
@@ -93,7 +107,7 @@ function App() {
   return (
     <div className="App">
       <h1>
-        <Clock minutes={currentTimer.minutes} seconds={currentTimer.seconds} />
+        <Clock hours={currentTimer.hours} minutes={currentTimer.minutes} seconds={currentTimer.seconds} />
       </h1>
       <h2>{currentTimer.task}</h2>
       <form>
@@ -108,7 +122,7 @@ function App() {
         }
         return (
           <p>
-            <Clock minutes={timerElement.minutes} seconds={timerElement.seconds} />
+            <Clock hours={timerElement.hours} minutes={timerElement.minutes} seconds={timerElement.seconds} />
             {timerElement.task}
           </p>
         );
