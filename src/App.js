@@ -22,6 +22,9 @@ function App() {
         seconds: timers[1].seconds,
         task: timers[1].task
       });
+      if (automatic) {
+        beginTimer();
+      }
     } else {
       setCurrentTimer({
         hours: 0,
@@ -31,7 +34,7 @@ function App() {
       });
     }
     setTimers(timers.slice(1));
-  }, [timers]);
+  }, [timers, automatic]);
 
   useEffect(() => {
     if (timer && currentTimer.hours === 0 && currentTimer.minutes === 0 && currentTimer.seconds === 0) {
@@ -44,39 +47,43 @@ function App() {
     }
   }, [currentTimer, timer, automatic, nextTimer]);
 
+  function beginTimer() {
+    setTimer(
+      setInterval(() => {
+        setCurrentTimer(current => {
+          if (current.seconds > 0) {
+            return {
+              hours: current.hours,
+              minutes: current.minutes,
+              seconds: current.seconds - 1,
+              task: current.task
+            };
+          } else if (current.minutes > 0) {
+            return {
+              hours: current.hours,
+              minutes: current.minutes - 1,
+              seconds: 59,
+              task: current.task
+            };
+          } else if (current.hours > 0) {
+            return {
+              hours: current.hours - 1,
+              minutes: 59,
+              seconds: 59,
+              task: current.task
+            };
+          }
+        });
+      }, 1000)
+    );
+  }
+
   function startPause(event) {
     if (timer) {
       clearInterval(timer);
       setTimer(null);
     } else {
-      setTimer(
-        setInterval(() => {
-          setCurrentTimer(current => {
-            if (current.seconds > 0) {
-              return {
-                hours: current.hours,
-                minutes: current.minutes,
-                seconds: current.seconds - 1,
-                task: current.task
-              };
-            } else if (current.minutes > 0) {
-              return {
-                hours: current.hours,
-                minutes: current.minutes - 1,
-                seconds: 59,
-                task: current.task
-              };
-            } else if (current.hours > 0) {
-              return {
-                hours: current.hours - 1,
-                minutes: 59,
-                seconds: 59,
-                task: current.task
-              };
-            }
-          });
-        }, 1000)
-      );
+      beginTimer();
     }
     event.preventDefault();
   }
