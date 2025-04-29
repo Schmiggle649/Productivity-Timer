@@ -5,7 +5,7 @@
 }
 
 button {
-  font-size: 1em;
+  font-size: 3.1rem;
   margin: 0px 7px;
 }
 
@@ -22,9 +22,38 @@ button {
 }
 
 .submit {
-  font-size: 0.5em;
+  font-size: 1.5rem;
+}
+
+.queue {
+  margin-bottom: 0px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  font-size: 3rem;
+  margin: 0px;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: white;
+  width: 300px;
+  font-size: 1rem;
+  text-align: center;
+  padding: 5px 0px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 
 .autoManual {
-  font-size: 0.5em;
+  font-size: 1.5rem;
 }

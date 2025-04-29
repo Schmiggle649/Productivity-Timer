@@ -129,7 +129,11 @@ function App() {
         <button onClick={next}>Next</button>
       </form>
       <TimeSetter add={addTime} />
-      <h2>Queue</h2>
+      <h2 className="queue">Queue</h2>
+      <p className="tooltip">
+          Mode:
+          <span className="tooltiptext">Automatic mode starts the next timer immediately after the current timer expires, while manual mode waits for the user to click the Next button.</span>
+      </p>
       <form className="autoManual" onClick={handleAutoManual}>
         <input type="radio" id="auto" name="autoManual" checked={automatic} />
         <label htmlFor="auto">Automatic</label>
