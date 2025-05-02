@@ -8,6 +8,7 @@ function TimeSetter(props) {
       seconds: 0,
     });
     const [inputTask, setInputTask] = useState("");
+    const [inputChecker, setInputChecker] = useState("");
 
     function handleTime(event) {
       let newHours = inputTime.hours;
@@ -119,6 +120,11 @@ function TimeSetter(props) {
     }
 
     function submitTime(event) {
+      if (inputTime.hours === 0 && inputTime.minutes === 0 && inputTime.seconds === 0) {
+        setInputChecker("Please set a time");
+      } else if (inputTask === "") {
+        setInputChecker("Please set a task");
+      } else {
         props.add(inputTime, inputTask);
         setInputTime({
           hours: 0,
@@ -126,30 +132,35 @@ function TimeSetter(props) {
           seconds: 0
         });
         setInputTask("");
-        event.preventDefault();
+        setInputChecker("");
+      }
+      event.preventDefault();
     }
       
   return (
-    <form>
-      <button onClick={handleTime} className="up" name="h1">↑</button>
-      <button onClick={handleTime} className="up" name="h2">↑</button>
-      <button onClick={handleTime} className="up" name="m1">↑</button>
-      <button onClick={handleTime} className="up" name="m2">↑</button>
-      <button onClick={handleTime} className="up" name="s1">↑</button>
-      <button onClick={handleTime} className="up" name="s2">↑</button>
-      <h2 className="inputClock">
-        <Clock hours={inputTime.hours} minutes={inputTime.minutes} seconds={inputTime.seconds} />
-      </h2>
-      <button onClick={handleTime} className="down" name="h1">↓</button>
-      <button onClick={handleTime} className="down" name="h2">↓</button>
-      <button onClick={handleTime} className="down" name="m1">↓</button>
-      <button onClick={handleTime} className="down" name="m2">↓</button>
-      <button onClick={handleTime} className="down" name="s1">↓</button>
-      <button onClick={handleTime} className="down" name="s2">↓</button>
-      <br />
-      <input className="submit" value={inputTask} onChange={handleTask} placeholder="Task" />
-      <button className="submit" onClick={submitTime}>Submit</button>
-    </form>
+    <div>
+      <form>
+        <button onClick={handleTime} className="up" name="h1">↑</button>
+        <button onClick={handleTime} className="up" name="h2">↑</button>
+        <button onClick={handleTime} className="up" name="m1">↑</button>
+        <button onClick={handleTime} className="up" name="m2">↑</button>
+        <button onClick={handleTime} className="up" name="s1">↑</button>
+        <button onClick={handleTime} className="up" name="s2">↑</button>
+        <h2 className="inputClock">
+          <Clock hours={inputTime.hours} minutes={inputTime.minutes} seconds={inputTime.seconds} />
+        </h2>
+        <button onClick={handleTime} className="down" name="h1">↓</button>
+        <button onClick={handleTime} className="down" name="h2">↓</button>
+        <button onClick={handleTime} className="down" name="m1">↓</button>
+        <button onClick={handleTime} className="down" name="m2">↓</button>
+        <button onClick={handleTime} className="down" name="s1">↓</button>
+        <button onClick={handleTime} className="down" name="s2">↓</button>
+        <br />
+        <input className="submit" value={inputTask} onChange={handleTask} placeholder="Task" />
+        <button className="submit" onClick={submitTime}>Submit</button>
+      </form>
+      <h3>{inputChecker}</h3>
+    </div>
   );
 }
 
