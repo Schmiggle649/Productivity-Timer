@@ -118,6 +118,15 @@ function App() {
     setAutomatic(event.target.id === "auto");
   }
 
+  function deleteTimer(event) {
+    setTimers(queue => {
+      return queue.filter((timerElement, index) => {
+        return index !== Number(event.target.id);
+      });
+    });
+    event.preventDefault();
+  }
+
   return (
     <div className="App">
       <h1>
@@ -142,10 +151,11 @@ function App() {
       </form>
       {timers.map((timerElement, index) => {
         if (index === 0) {
-          return <p></p>;
+          return <p key={index}></p>;
         }
         return (
-          <p>
+          <p key={index}>
+            <button onClick={deleteTimer} id={index}>Delete</button>
             <Clock hours={timerElement.hours} minutes={timerElement.minutes} seconds={timerElement.seconds} />
             {timerElement.task}
           </p>
