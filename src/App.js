@@ -82,7 +82,7 @@ function App() {
     if (timer) {
       clearInterval(timer);
       setTimer(null);
-    } else {
+    } else if (currentTimer.hours !== 0 || currentTimer.minutes !== 0 || currentTimer.seconds !== 0) {
       beginTimer();
     }
     event.preventDefault();
